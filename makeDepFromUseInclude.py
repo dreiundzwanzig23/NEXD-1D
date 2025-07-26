@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #--------------------------------------------------------------------------
 #   Copyright 2013 Wolfgang Friederich
 #
@@ -34,18 +34,17 @@ import re
 import os.path
 #-----------------------------------------------------------
 def search_text_file(datei, pattern):
-    """ Search each line of a text file for a pattern.
-    
+    """Search each line of a text file for a pattern.
+
     Start searching at the beginning of the line.
     Returns the group(1) match.
     """
     matchlist = []
-    f = open(datei,'r')
-    for line in f:
-        m = re.match(pattern,line)
-        if m is not None:
-            matchlist.append(m.group(1))
-    f.close()
+    with open(datei, "r", encoding="utf-8") as f:
+        for line in f:
+            m = re.match(pattern, line)
+            if m is not None:
+                matchlist.append(m.group(1))
     return matchlist
 #-----------------------------------------------------------
 def build_makefile_entry(datei, matchlist, depext):
@@ -55,7 +54,7 @@ def build_makefile_entry(datei, matchlist, depext):
     matchlist: list of dependencies
     depext: extension to be appended to the dependencies
     """
-    target = str.split(os.path.basename(datei),'.')[0]+'.o:'
+    target = os.path.splitext(os.path.basename(datei))[0] + '.o:'
     entry = target
     for el in set(matchlist):
          entry = entry+' '+el+depext
@@ -67,31 +66,31 @@ dirs = ['.']+sys.argv[1:]                                 # list of directories 
 #
 for folder in dirs:                                       # loop through folders
     for datei in glob.glob(folder+'/*.f90'):              # loop through Fortran 90 files
-        matchlist = search_text_file(datei,'\tuse (\w+)')
+        matchlist = search_text_file(datei, r'\tuse (\w+)')
         if len(matchlist) != 0:
             entry = build_makefile_entry(datei, matchlist,'.o')
-            print entry
-        matchlist = search_text_file(datei,'^ {2,4}use (\w+)')
+            print(entry)
+        matchlist = search_text_file(datei, r'^ {2,4}use (\w+)')
         if len(matchlist) != 0:
             entry = build_makefile_entry(datei, matchlist,'.o')
-            print entry
+            print(entry)
 #
 #  search for include statements in f-files, either tab or four blanks
 #
     for datei in glob.glob(folder+'/*.f'):                # loop through Fortran 77 files
-        matchlist = search_text_file(datei,'\tinclude \'(\w+)')
+        matchlist = search_text_file(datei, r'\tinclude \'(\w+)')
         if len(matchlist) != 0:
             entry = build_makefile_entry(datei, matchlist,'.h')
-            print entry
-        matchlist = search_text_file(datei,'    include \'(\w+)')
+            print(entry)
+        matchlist = search_text_file(datei, r'    include \'(\w+)')
         if len(matchlist) != 0:
             entry = build_makefile_entry(datei, matchlist,'.h')
-            print entry
+            print(entry)
 #
 #  search for include statements in .f.m4-files
 #
     for datei in glob.glob(folder+'/*.f.m4'):              # loop through m4-Fortran 77 files
-        matchlist = search_text_file(datei,'\tinclude \'(\w+)')
+        matchlist = search_text_file(datei, r'\tinclude \'(\w+)')
         if len(matchlist) != 0:
             entry = build_makefile_entry(datei, matchlist,'.h')
-            print entry
+            print(entry)
