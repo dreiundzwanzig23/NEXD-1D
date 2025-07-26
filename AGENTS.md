@@ -19,3 +19,6 @@ There are currently no automated tests. To verify the build, run `make all` whic
 and produce a binary in `bin/`. If compilation fails due to missing dependencies, run `setup.sh` in the project
 root to install them on Debian/Ubuntu systems.
 
+
+## Updating instructions
+Ensure any changes to project guidelines are reflected in this file. Always update AGENTS.md when instructions change.
