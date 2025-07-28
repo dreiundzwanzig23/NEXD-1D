@@ -1,0 +1,19 @@
+module test_getgll
+  use pfunit
+  use gllMod
+  use parameterMod
+  use constantsMod
+contains
+@test
+  subroutine test_order4()
+    type(meshVar) :: mesh
+    real(kind=custom_real), dimension(:), allocatable :: result
+    mesh%np = 5
+    result = getGll(mesh)
+    call assertEqual(1.0_custom_real, result(1), tolerance=1e-6_custom_real)
+    call assertEqual(0.6546536707079771_custom_real, result(2), tolerance=1e-6_custom_real)
+    call assertEqual(0.0_custom_real, result(3), tolerance=1e-6_custom_real)
+    call assertEqual(-0.6546536707079771_custom_real, result(4), tolerance=1e-6_custom_real)
+    call assertEqual(-1.0_custom_real, result(5), tolerance=1e-6_custom_real)
+  end subroutine
+end module

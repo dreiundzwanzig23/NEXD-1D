@@ -32,6 +32,7 @@ bindir = ./bin
 obsdir = ./obj
 moduledir = ./mod
 srcdir = ./src
+PFUNIT ?= /usr/local/pfunit
 AR = ar
 
 # Choose your compiler:
@@ -128,6 +129,7 @@ obj_solver = \
 	rhsSlipInterface1DMod.o \
 	errorMessage.o \
 	realloc.o \
+        ioMod.o \
 	sourcesMod.o \
 	slipInterfaceMod.o \
 	genericMaterial.o \
@@ -146,7 +148,8 @@ obj_analyticalSol = \
 	slipInterfaceMod.o \
 	errorMessage.o \
 	materials1DMod.o \
-	realloc.o
+	realloc.o \
+        ioMod.o
 	
 obj_test = testprogramm.o \
 #-------------------------------------------------------
@@ -216,9 +219,9 @@ solver: $(obj_solver)
 analytical: $(obj_analyticalSol)
 	$(gf) $(FFLAGS) -o $(bindir)/$@ $(obstring) $(la)
 	
-test: $(obj_test)
-	$(gf) $(FFLAGS) -o $(bindir)/$@ $(obstring) $(la)
-	
+test:
+	$(MAKE) -C tests PFUNIT=$(PFUNIT)
+
 bin:
 	mkdir -p $(bindir)
 #

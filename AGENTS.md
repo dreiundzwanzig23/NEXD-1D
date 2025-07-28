@@ -12,13 +12,12 @@ This repository contains the NEXD 1D solver, a Fortran project built with a Make
 ## Building
 Run `make all` to build the main solver. `make analytical` builds the analytical solver. The build expects
 `gfortran`, `mpif90`, `lapack`, `blas`, `pgplot`, and `tcsh` to be available. The Makefile uses `makeDepFromUseInclude.py`
- to generate dependency information; this script is written for Python 3.
+to generate dependency information; this script is written for Python 3.
 
 ## Tests
-There are currently no automated tests. To verify the build, run `make all` which should compile the solver
-and produce a binary in `bin/`. If compilation fails due to missing dependencies, run `setup.sh` in the project
-root to install them on Debian/Ubuntu systems.
-
+Unit tests use the pFUnit framework. Install pFUnit and set the `PFUNIT` variable to its install directory.
+Run `make test` to build and execute the test suite in `tests/`.
+If compilation fails due to missing dependencies, run `setup.sh` in the project root to install them on Debian/Ubuntu systems.
 
 ## Updating instructions
 Ensure any changes to project guidelines are reflected in this file. Always update AGENTS.md when instructions change.

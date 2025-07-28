@@ -52,3 +52,14 @@ NEXD 1D comes with three examples: an example for elastic wave propagation (simu
      make all
      ```
    from installation path `NEXD-1D/` to compile NEXD 1D.
+
+## Running Tests
+
+Install pFUnit and set the `PFUNIT` variable to its installation directory. Then run
+
+```
+make test
+```
+
+This compiles and executes the test suite located in `tests/`.
+

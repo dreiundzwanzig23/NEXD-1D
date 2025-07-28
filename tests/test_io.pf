@@ -1,0 +1,15 @@
+module test_io
+  use pfunit
+  use ioMod
+  use constantsMod
+contains
+@test
+  subroutine test_write_read()
+    real(kind=custom_real), dimension(3) :: x = (/1.0_custom_real, 2.0_custom_real, 3.0_custom_real/)
+    real(kind=custom_real), dimension(:), allocatable :: y
+    character(len=*), parameter :: fname = 'tmp_vector.dat'
+    call writeVector(fname, x)
+    y = readVector(fname)
+    call assertEqual(x, y, tolerance=1e-12_custom_real)
+  end subroutine
+end module
